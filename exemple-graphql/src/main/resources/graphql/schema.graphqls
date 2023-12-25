@@ -1,0 +1,51 @@
+# Define an input type for creating a Service
+input ServiceInput {
+    name: String!
+}
+
+input ServiceIdentifier {
+    id: ID!
+}
+
+input EmployeInput {
+    name: String!
+    phone: String!
+    serviceId: ID!
+}
+
+# Define the Employe type
+type Employe {
+    id: ID!
+    name: String!
+    phone: String
+    service: Service!
+}
+
+# Define the Service type
+type Service {
+    id: ID!
+    name: String!
+    employes: [Employe]
+}
+
+# Define the Query type for fetching data
+type Query {
+    employes: [Employe]
+    services: [Service]
+    serviceById(id: ID!): Service
+    employeById(id: ID!): Employe
+    findByService(serviceId: ServiceIdentifier!): [Employe]
+}
+
+# Define the Mutation type for modifying data
+type Mutation {
+    # Service Mutations
+    addService(serviceInput: ServiceInput!): Service
+    deleteService(id: ID!): Boolean
+    updateService(id: ID!, serviceInput: ServiceInput!): Boolean
+
+    # Employe Mutations
+    addEmploye(employeInput: EmployeInput!): Employe
+    deleteEmploye(id: ID!): Boolean
+    updateEmploye(id: ID!, employeInput: EmployeInput!): Boolean
+}
